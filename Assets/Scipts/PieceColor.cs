@@ -1,4 +1,4 @@
-﻿namespace Scipts
+﻿namespace Chess
 {
     public enum PieceColor
     {

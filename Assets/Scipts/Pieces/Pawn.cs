@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+namespace Chess
+{
+    
 public class Pawn : Piece
 {
     
@@ -64,4 +67,5 @@ public class Pawn : Piece
     }
     
     
+}
 }

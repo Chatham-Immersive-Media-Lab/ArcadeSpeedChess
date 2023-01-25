@@ -27,6 +27,7 @@ namespace Chess
                     }
                 }
             }
+            //Todo: castling
 
             return tiles;
         }

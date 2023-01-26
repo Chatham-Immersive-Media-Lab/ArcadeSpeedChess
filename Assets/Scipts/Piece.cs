@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -79,6 +80,7 @@ namespace Chess
             }
 
             transform.position = tile.transform.position;
+            _currentTile.ClearPiece();
             _currentTile = tile;
             tile.SetPiece(this);
 
@@ -122,8 +124,7 @@ namespace Chess
             }
         }
 
-        public void AddValidTilesInDirection(Vector2Int direction, ref List<Tile> tiles,
-            bool includeCaptureSquare = true)
+        public void AddValidTilesInDirection(Vector2Int direction, ref List<Tile> tiles, bool includeCaptureSquare = true)
         {
             var currentPos = _currentTile.Position;
             var grid = _currentTile.GetGridManager();

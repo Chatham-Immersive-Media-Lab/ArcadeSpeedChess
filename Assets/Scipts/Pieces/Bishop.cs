@@ -16,7 +16,6 @@ namespace Chess
             AddValidTilesInDirection(-Vector2Int.one, ref tiles);
             AddValidTilesInDirection(new Vector2Int(1,-1), ref tiles);
             AddValidTilesInDirection(new Vector2Int(-1,1), ref tiles);
-
             return tiles;
         }
     }

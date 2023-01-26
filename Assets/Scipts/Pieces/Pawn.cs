@@ -6,7 +6,8 @@ namespace Chess
     
 public class Pawn : Piece
 {
-    
+    protected override string DisplayName => "Pawn";
+
     public override List<Tile> ValidDestinations()
     { 
         //if valid add moves to list

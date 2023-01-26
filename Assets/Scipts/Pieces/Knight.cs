@@ -6,6 +6,8 @@ namespace Chess
 {
     public class Knight : Piece
     {
+        protected override string DisplayName => "Knight";
+
         public readonly static Vector2Int[] KnightPositions = new[]
         {
             new Vector2Int(1, 2),

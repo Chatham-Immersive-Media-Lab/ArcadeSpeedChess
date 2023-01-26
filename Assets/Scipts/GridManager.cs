@@ -15,13 +15,8 @@ namespace Chess
         private Dictionary<Vector2Int, Tile> _tiles;
         [SerializeField] private Transform background;
 
-        private void Start()
-        {
-            GenerateGrid();
-        }
-
         //generates grid layout (adjustable in the editor)
-        void GenerateGrid()
+        public void GenerateGrid()
         {
             _tiles = new Dictionary<Vector2Int, Tile>();
 

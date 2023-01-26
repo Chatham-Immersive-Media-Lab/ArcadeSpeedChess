@@ -5,6 +5,8 @@ namespace Chess
 {
     public class Rook: Piece
     {
+        protected override string DisplayName => "Rook";
+
         public override List<Tile> ValidDestinations()
         {
             var tiles = new List<Tile>();

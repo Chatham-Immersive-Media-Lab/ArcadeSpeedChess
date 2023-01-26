@@ -7,6 +7,8 @@ namespace Chess
 
     public class Queen : Piece
     {
+        protected override string DisplayName => "Queen";
+
         public override List<Tile> ValidDestinations()
         {
             //if valid add moves to list

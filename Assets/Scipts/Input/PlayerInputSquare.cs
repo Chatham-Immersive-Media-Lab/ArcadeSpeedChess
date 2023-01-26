@@ -105,7 +105,6 @@ namespace Chess
 				SetInputActive(false);
 			}else if (state == InputState.ChoosingPiece)
 			{
-				Debug.Log(_player.gameObject.name + "Choosing Piece");
 				SetInputActive(true);
 				//get the players available moves. Put ourselves on the closest one.
 				var pieces = _player.GetAvailablePieces();
@@ -118,7 +117,6 @@ namespace Chess
 				SnapToClosestAvailable();
 			}else if (state == InputState.ChoosingMove)
 			{
-				Debug.Log(_player.gameObject.name + "Choosing Move");
 				SetInputActive(true);
 				var destinations = _player.SelectedPiece.ValidDestinations();
 				//list is readonly so we have to update it one by one. ... maybe it should not be read only.

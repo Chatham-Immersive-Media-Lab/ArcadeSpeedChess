@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Chess
@@ -6,18 +7,32 @@ namespace Chess
 	//Player doesn't really have a representation in the scene, they're just vibing,
 	public class Player : MonoBehaviour
 	{
+		public Action<InputState> OnInputStateChange;
 		//input...
 		public PieceColor Color => _myColor; 
 		private PieceColor _myColor;
+		public InputState State => _inputState;
+		private InputState _inputState;
 
 		private GameManager _manager;
 		private List<Piece> _myPieces;
 		private List<Piece> _piecesWithAvailableMoves;
+
+		public Piece SelectedPiece => _selectedPieceToMove;
+		private Piece _selectedPieceToMove;
+		
+		private void Awake()
+		{
+			_inputState = InputState.NotGameplay;
+		}
+
 		public void Init(GameManager manager, PieceColor color)
 		{
 			_manager = manager;
 			_myColor = color;
 			//todo: subscribe to afterMove event to update availableMoves.
+			
+			SetInputState(InputState.NotMyTurn);
 		}
 		public void SetStartingPieces(List<Piece> startingPieces)
 		{
@@ -37,12 +52,24 @@ namespace Chess
 		{
 			//update available moves
 			SetPiecesWithAvailableMoves();
-			
-			//update the UI?
-			
 			Debug.Log(_myColor + " Player has "+_piecesWithAvailableMoves.Count+ " Available Moves.");
+			
+			//update the UI/selector
+			SetInputState(InputState.ChoosingPiece);
 		}
-		
+
+		private void SetInputState(InputState state)
+		{
+			if (state == _inputState)
+			{
+				Debug.LogError("Cant set state to current state");
+				return;
+			}
+			_inputState = state;
+			//fire of event.
+			OnInputStateChange?.Invoke(state);
+		}
+
 		public void SetPiecesWithAvailableMoves()
 		{
 			//This is a seemingly odd way to do things - we are updating a list, where we could just clear and recreate it.
@@ -75,7 +102,26 @@ namespace Chess
 		public void Move(Piece piece, Tile destination)
 		{
 			piece.Move(destination);
+			SetInputState(InputState.NotMyTurn);//this will fire of an event that the input square will listen to, and disable.
 			_manager.OnPlayerFinishedTurn(this);
+		}
+
+		public void ChoosePieceToMove(Piece piece)
+		{
+			if (piece.Color == _myColor)
+			{
+				_selectedPieceToMove = piece;
+				SetInputState(InputState.ChoosingMove);
+			}
+			else
+			{
+				Debug.LogError("Cant choose that piece!");
+			}
+		}
+
+		public List<Piece> GetAvailablePieces()
+		{
+			return _piecesWithAvailableMoves;
 		}
 	}
 }

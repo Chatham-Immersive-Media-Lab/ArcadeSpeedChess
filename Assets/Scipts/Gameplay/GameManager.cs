@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         whitePlayer.Init(this,PieceColor.White);
         whitePlayer.SetStartingPieces(_allPieces.Where(x=>x.Color == PieceColor.White).ToList());
         blackPlayer.Init(this,PieceColor.Black);
-        whitePlayer.SetStartingPieces(_allPieces.Where(x => x.Color == PieceColor.Black).ToList());
+        blackPlayer.SetStartingPieces(_allPieces.Where(x => x.Color == PieceColor.Black).ToList());
 
         whitePlayer.SetTurnActive();
         

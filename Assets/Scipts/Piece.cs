@@ -10,9 +10,11 @@ namespace Chess
         public PieceColor Color => _pieceColor;
         protected PieceColor _pieceColor;
         protected bool _hasMoved; //Todo: initialize this correctly
+        public Tile Tile => _currentTile;
         protected Tile _currentTile;
         private GameManager _gameManager;
         protected virtual string DisplayName => "Piece";
+
         public static PieceColor OppositeColor(PieceColor pieceColor)
         {
             if (pieceColor == PieceColor.Black)

@@ -26,12 +26,12 @@ namespace Chess
 
         private void OnMouseEnter()
         {
-            SetHighlight(true);
+           //SetHighlight(true);
         }
 
         private void OnMouseExit()
         {
-            SetHighlight(false);
+            //SetHighlight(false);
         }
 
         public void SetHighlight(bool highlight)

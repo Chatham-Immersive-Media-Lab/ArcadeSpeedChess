@@ -40,11 +40,17 @@ namespace Chess
 			_piecesWithAvailableMoves = new List<Piece>();
 		}
 
+		//Called by gameManager after one of this players pieces has been captured.
 		public void PieceCaptured(Piece piece)
 		{
 			if (_myPieces.Contains(piece))
 			{
 				_myPieces.Remove(piece);
+			}
+
+			if (_piecesWithAvailableMoves.Contains(piece))
+			{
+				_piecesWithAvailableMoves.Remove(piece);
 			}
 		}
 
@@ -103,6 +109,9 @@ namespace Chess
 		{
 			piece.Move(destination);
 			SetInputState(InputState.NotMyTurn);//this will fire of an event that the input square will listen to, and disable.
+			
+			
+			//
 			_manager.OnPlayerFinishedTurn(this);
 		}
 

@@ -99,16 +99,16 @@ namespace Chess
 
 		private void OnInputStateChange(InputState state)
 		{
+			// selectedTile = null;
+			ClearAvailable();
 			if (state == InputState.NotMyTurn || state == InputState.NotGameplay)
 			{
-				ClearAvailable();
 				SetInputActive(false);
 			}else if (state == InputState.ChoosingPiece)
 			{
 				SetInputActive(true);
 				//get the players available moves. Put ourselves on the closest one.
 				var pieces = _player.GetAvailablePieces();
-				ClearAvailable();
 				foreach (var piece in pieces)
 				{
 					_availableTiles.Add(piece.Tile);
@@ -120,7 +120,6 @@ namespace Chess
 				SetInputActive(true);
 				var destinations = _player.SelectedPiece.ValidDestinations();
 				//list is readonly so we have to update it one by one. ... maybe it should not be read only.
-				ClearAvailable();
 				foreach (var tile in destinations)
 				{
 					_availableTiles.Add(tile);

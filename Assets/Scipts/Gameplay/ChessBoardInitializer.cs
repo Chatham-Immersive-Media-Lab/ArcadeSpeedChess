@@ -19,6 +19,7 @@ namespace Chess
 		//but this works.
 		public List<Piece> CreateStartingChessBoard(GameManager gameManager, GridManager grid)
 		{
+			_gameManager = gameManager;
 			_createdPieces = new List<Piece>();
 			//Pawns
 			for (int i = 0; i < 8; i++)

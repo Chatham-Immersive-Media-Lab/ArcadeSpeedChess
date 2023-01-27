@@ -199,7 +199,7 @@ namespace Chess
 				return -10;
 			}
 
-			angle = angle / 180;//normalize to value from 0 to 1.
+			angle = angle / 90;//normalize to value from 0 to 1.
 			if (angle == 0)
 			{
 				//dont divide by zero, but rank should basically always choose the closest piece with 0 angle.
@@ -216,7 +216,7 @@ namespace Chess
 			
 			//The numerators are how much we factor in both of these measurements.  
 			//we super prefer close angles (hence the square), then we will prefer closer distances (big numerator)
-			float rank = (20/distance) * (1/(angle*angle));
+			float rank = (50/distance) * (1/(angle*angle));
 			return rank;
 		}
 

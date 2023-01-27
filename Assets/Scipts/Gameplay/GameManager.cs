@@ -49,9 +49,9 @@ public class GameManager : MonoBehaviour
     public void OnPlayerFinishedTurn(Player player)
     {
         //todo: clock switching. Maybe store separate game clocks with the Player object? I like that
-        if (player != _activePlayer)
+        if (_activePlayer != null && player != _activePlayer)
         {
-            Debug.Log("Did a turn go out of order?");
+            Debug.LogError("Did a turn go out of order?");
         }
 
         if (player == whitePlayer)

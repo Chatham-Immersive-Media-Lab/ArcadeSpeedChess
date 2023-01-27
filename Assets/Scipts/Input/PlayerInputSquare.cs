@@ -106,6 +106,11 @@ namespace Chess
 					tile.SetHighlight(true);
 				}
 				SnapToClosestAvailable();
+			}else if (state == InputState.ChoosePawnPromotionPiece)
+			{
+				//open pop-up. Activate piece selection, and wait for callback that it finished selection,
+				//then call this move with the correct piece.
+				_player.OnPlayerFinishedChoosingPawnPromotionPiece(null);
 			}
 		}
 

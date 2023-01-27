@@ -109,8 +109,22 @@ namespace Chess
 			piece.Move(destination);
 			SetInputState(InputState.NotMyTurn);//this will fire of an event that the input square will listen to, and disable.
 			
-			
-			//
+			//todo: Check if we moved a pawn and it is in a promotion position.
+			bool pawnCanPromote = false;
+			if (pawnCanPromote)
+			{
+				SetInputState(InputState.ChoosePawnPromotionPiece);
+			}
+			else
+			{
+				//
+				_manager.OnPlayerFinishedTurn(this);
+			}
+		}
+
+		public void OnPlayerFinishedChoosingPawnPromotionPiece(Piece promotionPrefab)
+		{
+			//swap the pawn for promotionPrefab.
 			_manager.OnPlayerFinishedTurn(this);
 		}
 

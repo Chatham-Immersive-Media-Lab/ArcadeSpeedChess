@@ -4,5 +4,6 @@
 	NotMyTurn,
 	ChoosingPiece,
 	ChoosingMove,
+	ChoosePawnPromotionPiece,
 	//Animating piece movement...
 }

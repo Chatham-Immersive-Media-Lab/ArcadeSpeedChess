@@ -58,7 +58,6 @@ namespace Chess
 		{
 			//update available moves
 			SetPiecesWithAvailableMoves();
-			Debug.Log(_myColor + " Player has "+_piecesWithAvailableMoves.Count+ " Available Moves.");
 			
 			//update the UI/selector
 			SetInputState(InputState.ChoosingPiece);

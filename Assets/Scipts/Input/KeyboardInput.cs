@@ -2,6 +2,7 @@
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Chess
 {
@@ -22,45 +23,103 @@ namespace Chess
 		{
 			if (_inputSquare.IsActive)
 			{
-				if (Input.GetKeyDown(KeyCode.Space) && !_selectedThisFrame)
-				{
-					_selectedThisFrame = true;
-					_inputSquare.Select();
-				}
-
-				//this is all just for testing anyway, but pressing up and right at the exact same frame is too hard for this code to work.
-
-				bool right = Input.GetKeyDown(KeyCode.RightArrow);
-				bool left = Input.GetKeyDown(KeyCode.LeftArrow);
-				bool up = Input.GetKeyDown(KeyCode.UpArrow);
-				bool down = Input.GetKeyDown(KeyCode.DownArrow);
-
-				int horizontal = 0;
-				if (right && !left)
-				{
-					horizontal = 1;
-				}
-				else if (left && !right)
-				{
-					horizontal = -1;
-				}
-
-				int vertical = 0;
-				if (up && !down)
-				{
-					vertical = 1;
-				}
-				else if (down && !up)
-				{
-					vertical = -1;
-				}
-
-				if (horizontal != 0 || vertical != 0 && !_movedThisFrame)
-				{
-					_movedThisFrame = true;
-					_inputSquare.Move(new Vector2Int(horizontal, vertical));
-				}
+				InputTick();
 			}
+		}
+
+		private void InputTick()
+		{
+			//Select Input.
+			if (Input.GetKeyDown(KeyCode.Space) && !_selectedThisFrame)
+			{
+				_selectedThisFrame = true;
+				_inputSquare.Select();
+			}
+
+			//dont move if we (the other player) already did.
+			if (_movedThisFrame)
+			{
+				return;
+			}
+
+			//this is all just for testing anyway, but pressing up and right at the exact same frame is too hard for this code to work.
+			bool right = Input.GetKey(KeyCode.RightArrow);
+			bool left = Input.GetKey(KeyCode.LeftArrow);
+			bool up = Input.GetKey(KeyCode.UpArrow);
+			bool down = Input.GetKey(KeyCode.DownArrow);
+			bool rightDown = Input.GetKeyDown(KeyCode.RightArrow);
+			bool leftDown = Input.GetKeyDown(KeyCode.LeftArrow);
+			bool upDown = Input.GetKeyDown(KeyCode.UpArrow);
+			bool downDown = Input.GetKeyDown(KeyCode.DownArrow);
+
+			int horizontal = 0;
+			if (rightDown && !left)
+			{
+				if (up)
+				{
+					Move(1,1);
+					return;
+				}else if (down)
+				{
+					Move(1,-1);
+					return;
+				}
+				Move(1,0);
+				return;
+			}
+			else if (leftDown && !right)
+			{
+				if (up)
+				{
+					Move(-1, 1);
+					return;
+				}
+				else if (down)
+				{
+					Move(-1, -1);
+					return;
+				}
+
+				Move(-1, 0);
+				return;
+			}else if (upDown && !down)
+			{
+				if (right)
+				{
+					Move(1, 1);
+					return;
+				}
+				else if (left)
+				{
+					Move(-1, 1);
+					return;
+				}
+
+				Move(0, 1);
+				return;
+			}
+			else if (downDown && !up)
+			{
+				if (right)
+				{
+					Move(1, -1);
+					return;
+				}
+				else if (left)
+				{
+					Move(-1, -1);
+					return;
+				}
+
+				Move(0, -1);
+				return;
+			}
+		}
+
+		private void Move(int x, int y)
+		{
+			_movedThisFrame = true;
+			_inputSquare.Move(new Vector2Int(x, y));
 		}
 
 		private void LateUpdate()

@@ -36,7 +36,7 @@ public class Pawn : Piece
         
         if (upTwoTile != null)
         {
-            if (upTwoTile.IsEmpty() && !_hasMoved)
+            if (upOneTile.IsEmpty() && upTwoTile.IsEmpty() && !_hasMoved)
             {
                 tiles.Add(upTwoTile);
             }

@@ -23,7 +23,7 @@ namespace Chess
         public override List<Tile> ValidDestinations()
         {
             var gridManager = _currentTile.GetGridManager();
-            var tiles = new List<Tile>();
+            tiles.Clear();
             foreach(var offset in KnightPositions)
             {
                 var tile = gridManager.GetTileAtPosition(_currentTile.Position + offset);

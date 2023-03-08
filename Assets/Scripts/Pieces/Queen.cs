@@ -12,7 +12,7 @@ namespace Chess
         public override List<Tile> ValidDestinations()
         {
             //if valid add moves to list
-            var tiles = new List<Tile>();
+            tiles.Clear();
             var grid = _currentTile.GetGridManager();
             var currentPos = _currentTile.Position;
             //todo: can move any number of spaces left, right, forward, backwards, diagonal, as long as the space is valid. 

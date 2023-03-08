@@ -9,7 +9,7 @@ namespace Chess
 
         public override List<Tile> ValidDestinations()
         {
-            var tiles = new List<Tile>();
+            tiles.Clear();
             var gridManager = _currentTile.GetGridManager();
 
             for (int x = -1; x <= 1; x++)

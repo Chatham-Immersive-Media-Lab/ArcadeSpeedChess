@@ -9,7 +9,7 @@ namespace Chess
 
         public override List<Tile> ValidDestinations()
         {
-            var tiles = new List<Tile>();
+            tiles.Clear();
             //var forward = currentPos + new Vector2Int
             AddValidTilesInDirection(Vector2Int.up, ref tiles);
             //var left = currentPos + new Vector2Int

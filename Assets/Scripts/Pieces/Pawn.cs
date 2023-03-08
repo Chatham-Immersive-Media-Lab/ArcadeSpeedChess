@@ -11,7 +11,7 @@ public class Pawn : Piece
     public override List<Tile> ValidDestinations()
     { 
         //if valid add moves to list
-        var tiles = new List<Tile>();
+        tiles.Clear();
         var grid = _currentTile.GetGridManager();
         var currentPos = _currentTile.Position;
         var upOne = currentPos + new Vector2Int(0, GetFacingDirection());

@@ -9,7 +9,7 @@ namespace Chess
 
         public override List<Tile> ValidDestinations()
         {
-            var tiles = new List<Tile>();
+            tiles.Clear();
 
             //diagonals
             AddValidTilesInDirection(Vector2Int.one, ref tiles);

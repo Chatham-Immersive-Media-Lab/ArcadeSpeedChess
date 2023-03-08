@@ -16,10 +16,15 @@ public class GameManager : MonoBehaviour
     public Player whitePlayer;
     public Player blackPlayer;
     private Player _activePlayer;
+
+    public ChessTimer Timer => _timer;
+    private ChessTimer _timer;
+
     private void Awake()
     {
         _chessBoardInitializer = GetComponent<ChessBoardInitializer>();
         _gridManager = GetComponent<GridManager>();
+        _timer = new ChessTimer(new TimeSpan(0,0,3,0));
     }
 
     private void Start()
@@ -40,6 +45,9 @@ public class GameManager : MonoBehaviour
         blackPlayer.SetStartingPieces(_allPieces.Where(x => x.Color == PieceColor.Black).ToList());
 
         whitePlayer.SetTurnActive();
+        
+        //start timer
+        _timer.StartTimeForPlayer(PieceColor.White);
         
         //basically we call "set turn active" then wait for "onplayerfinsihedturn" to be called by the player.
         //this creates an interdependency between players and managers. thats okay because we are using dependency injection (telling the players that we are their manager), and not dealing with scene references.
@@ -65,11 +73,13 @@ public class GameManager : MonoBehaviour
         {
             _activePlayer = blackPlayer;
             blackPlayer.SetTurnActive();
+            _timer.StartTimeForPlayer(PieceColor.Black);
         }
         else if(player == blackPlayer)
         {
             _activePlayer = whitePlayer;
             whitePlayer.SetTurnActive();
+            _timer.StartTimeForPlayer(PieceColor.White);
         }
         else
         {
@@ -113,7 +123,7 @@ public class GameManager : MonoBehaviour
         var pieces = attackingPlayer.GetAvailablePieces();
         foreach (var piece in pieces)
         {
-            foreach (var destination in piece.ValidDestinations(true))
+            foreach (var destination in piece.ValidDestinations())
             {
                 if (destination.Position == tilePos)
                 {

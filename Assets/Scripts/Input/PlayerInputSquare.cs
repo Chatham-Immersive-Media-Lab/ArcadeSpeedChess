@@ -12,8 +12,8 @@ namespace Chess
 		public bool IsActive => _isActive;
 		private bool _isActive;
 		private Tile selectedTile;
-		private readonly List<Tile> _availableTiles = new List<Tile>();
-
+		private readonly Dictionary<Tile,Move> _availableMoves = new Dictionary<Tile, Move>();
+		private readonly List<Tile> _inputOptionTiles = new List<Tile>();
 		private static Dictionary<Vector2Int, Dictionary<Vector2Int, float>> bestTileDirLookup = new Dictionary<Vector2Int, Dictionary<Vector2Int, float>>();
 		//keep a list of available tiles.
 		private void Awake()
@@ -40,7 +40,7 @@ namespace Chess
 				return;
 			}
 			//
-			var best = GetBestMovementTile(selectedTile,dir,_availableTiles);
+			var best = GetBestMovementTile(selectedTile,dir,_inputOptionTiles);
 			if (best != null)
 			{
 				PutSelfOnTile(best);
@@ -67,7 +67,7 @@ namespace Chess
 			}else if (_player.State == InputState.ChoosingMove)
 			{
 				//we have chosen this piece to move to.
-				_player.Move(_player.SelectedPiece,selectedTile);
+				_player.Move(_availableMoves[selectedTile]);
 			}
 		}
 
@@ -91,19 +91,23 @@ namespace Chess
 				var pieces = _player.GetAvailablePieces();
 				foreach (var piece in pieces)
 				{
-					_availableTiles.Add(piece.Tile);
+					_inputOptionTiles.Add(piece.Tile);
 					piece.Tile.SetHighlight(true);
 				}
 				SnapToClosestAvailable();
 			}else if (state == InputState.ChoosingMove)
 			{
 				SetInputActive(true);
-				var destinations = _player.SelectedPiece.ValidDestinations();
+				var moves = _player.SelectedPiece.AvailableMoves();
 				//list is readonly so we have to update it one by one. ... maybe it should not be read only.
-				foreach (var tile in destinations)
+				foreach (var move in moves)
 				{
-					_availableTiles.Add(tile);
-					tile.SetHighlight(true);
+					//add to movement options and highlight it
+					_inputOptionTiles.Add(move.Destination);//we need a local list of tiles for moving the input square around
+					move.Destination.SetHighlight(true);
+					
+					//add tile.
+					_availableMoves.Add(move.Destination,move);
 				}
 				SnapToClosestAvailable();
 			}else if (state == InputState.ChoosePawnPromotionPiece)
@@ -116,16 +120,18 @@ namespace Chess
 
 		private void ClearAvailable()
 		{
-			foreach (Tile t in _availableTiles)
+			foreach (Tile t in _inputOptionTiles)
 			{
 				t.SetHighlight(false);
 			}
-			_availableTiles.Clear();
+			
+			_inputOptionTiles.Clear();
+			_availableMoves.Clear();
 		}
 
 		private void SnapToClosestAvailable()
 		{
-			if (_availableTiles.Count == 0)
+			if (_inputOptionTiles.Count == 0)
 			{
 				//No available moves!
 				//do... we lose?
@@ -135,7 +141,7 @@ namespace Chess
 			
 			float distance = Mathf.Infinity;
 			Tile closest = null;
-			foreach (Tile t in _availableTiles)
+			foreach (Tile t in _inputOptionTiles)
 			{
 				float d = Vector3.Distance(transform.position, t.transform.position);
 				if (d < distance)

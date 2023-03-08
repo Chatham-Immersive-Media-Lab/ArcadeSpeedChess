@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Chess.Move
+namespace Chess
 {
 	public class Move
 	{
-		public PieceColor MovingColor;
 		public Piece MovingPiece;//The piece to highlight
-		public Vector2Int Destination;
+		public Tile Destination;
 
-		public IEnumerator Execute()
+		public virtual void Execute()
 		{
-			yield break;
+			//note: we need to unsure we set HasMoved to true for the piece... basically only a concern for pawn promotion.
+			MovingPiece.Move(Destination);
 		}
+
 	}
 }

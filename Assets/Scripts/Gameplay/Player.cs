@@ -96,8 +96,8 @@ namespace Chess
 			
 			foreach(Piece piece in _myPieces)
 			{
-				var destinations  = piece.ValidDestinations();
-				if (destinations.Count > 0)
+				var moves  = piece.AvailableMoves();
+				if (moves.Count > 0)
 				{
 					//this piece has an available move. add them to the list if we need to.
 					if (!_piecesWithAvailableMoves.Contains(piece))
@@ -116,10 +116,10 @@ namespace Chess
 			}
 		}
 
-		public void Move(Piece piece, Tile destination)
+		public void Move(Move move)
 		{
-			piece.Move(destination);
-			SetInputState(InputState.NotMyTurn);//this will fire of an event that the input square will listen to, and disable.
+			move.Execute();
+			SetInputState(InputState.NotMyTurn);//this will fire off an event that the input square will listen to, and disable.
 			
 			//todo: Check if we moved a pawn and it is in a promotion position.
 			bool pawnCanPromote = false;
@@ -129,7 +129,6 @@ namespace Chess
 			}
 			else
 			{
-				//
 				_manager.OnPlayerFinishedTurn(this);
 			}
 		}

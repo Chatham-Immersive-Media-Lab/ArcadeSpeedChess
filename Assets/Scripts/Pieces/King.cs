@@ -7,7 +7,7 @@ namespace Chess
     {
         protected override string DisplayName => "King";
 
-        public override List<Tile> ValidDestinations(bool checkTest = false)
+        public override List<Tile> ValidDestinations()
         {
             var tiles = new List<Tile>();
             var gridManager = _currentTile.GetGridManager();
@@ -29,14 +29,23 @@ namespace Chess
                     }
                 }
             }
+            //Detect if the rook has not moved
 
-            //dont bother checking castle if we are just testing for what spaces are in check.
-            if (checkTest)
+            for (int i = tiles.Count-1; i >= 0; i--)
             {
-                return tiles;
+                if(_gameManager.IsSpaceInCheck(tiles[i].Position, OppositeColor(_pieceColor)))
+                {
+                    tiles.Remove(tiles[i]);
+                }
             }
-            //Todo: Castle Near
+            return tiles;
+        }
 
+        public override List<Move> AvailableMoves()
+        {
+            var moves= base.AvailableMoves();
+
+             
             //if we are white or black, set the values for "nearside spaces" and "farside spaces" values accordingly.
             Vector2Int nearRookPos = Vector2Int.zero;
             Vector2Int farRookPos = Vector2Int.zero;
@@ -46,12 +55,12 @@ namespace Chess
             if (_pieceColor == PieceColor.White)
             {
                 nearRookPos = new Vector2Int(7, 0); //bottom right
+                farRookPos = new Vector2Int(0, 0);//bottom left
                 nearBetweenPos.Add(new Vector2Int(6, 0));
                 nearBetweenPos.Add(new Vector2Int(5, 0));
                 farBetweenPos.Add(new Vector2Int(1, 0));
                 farBetweenPos.Add(new Vector2Int(2, 0));
                 farBetweenPos.Add(new Vector2Int(3, 0));
-                farRookPos = new Vector2Int(0, 0);//bottom left
             }else if (_pieceColor == PieceColor.Black)
             {
                 nearRookPos = new Vector2Int(7, 7); //top right
@@ -67,23 +76,21 @@ namespace Chess
             {
                 //check nearside 
                 //Get the value of the nearside rook (if there is a piece at that position, and it has not moved (and thus must be the rook)
-                var nearCorner = _gameManager.GridManager.GetTileAtPosition(nearRookPos);
-                var nearRook = nearCorner.GetPieceHere();
-                var farCorner = _gameManager.GridManager.GetTileAtPosition(farRookPos);
-                var farRook = farCorner.GetPieceHere();
+                var nearRook = _gameManager.GridManager.GetTileAtPosition(nearRookPos).GetPieceHere();
+                var farRook = _gameManager.GridManager.GetTileAtPosition(farRookPos).GetPieceHere();
                 if (nearRook != null)
                 {
-                    bool canCastleNear = true;
                     if (!nearRook.HasMoved)
                     {
                         //we have not moved the king
                         //we have not moved the rook
                         //we are not in check
                         //check for empty spaces and that those spaces aren't in check
+                        bool canCastleNear = true;
                         foreach (var space in nearBetweenPos)
                         {
                             var tile = _gameManager.GridManager.GetTileAtPosition(space);
-                            if (tile != null)
+                            if (tile.GetPieceHere() != null)
                             {
                                 canCastleNear = false;
                                 break;
@@ -100,7 +107,27 @@ namespace Chess
 
                         if (canCastleNear)
                         {
-                            //todo: Add Castle to our list of available moves!
+                            Tile rookDest = null;
+                            Tile kingDest = null;
+                            if (_pieceColor == PieceColor.White)
+                            {
+                                rookDest = _gameManager.GridManager.GetTileAtPosition(new Vector2Int(5, 0));
+                                kingDest = _gameManager.GridManager.GetTileAtPosition(new Vector2Int(6, 0));
+                            }
+                            else
+                            {
+                                rookDest = _gameManager.GridManager.GetTileAtPosition(new Vector2Int(5, 7));
+                                kingDest = _gameManager.GridManager.GetTileAtPosition(new Vector2Int(6, 7));
+                            }
+
+                            Castle move = new Castle()
+                            {
+                                Rook = (Rook)nearRook,
+                                RookDestination = rookDest,
+                                MovingPiece = this,
+                                Destination = kingDest,
+                            };
+                            moves.Add(move);
                         }
                     }
                 }
@@ -111,10 +138,10 @@ namespace Chess
                     {
                         bool canCastleFar = true;
                         
-                        foreach (var space in nearBetweenPos)
+                        foreach (var space in farBetweenPos)
                         {
                             var tile = _gameManager.GridManager.GetTileAtPosition(space);
-                            if (tile != null)
+                            if (tile.GetPieceHere() != null)
                             {
                                 canCastleFar = false;
                                 break;
@@ -135,13 +162,33 @@ namespace Chess
                         //All spaces between king and rook are empty and they are not in check.
                         if (canCastleFar)
                         {
-                            //todo: Add Castle to our list of available moves!
+                            Tile rookDest = null;
+                            Tile kingDest = null;
+                            if (_pieceColor == PieceColor.White)
+                            {
+                                rookDest = _gameManager.GridManager.GetTileAtPosition(new Vector2Int(3, 0));
+                                kingDest = _gameManager.GridManager.GetTileAtPosition(new Vector2Int(2, 0));
+                            }
+                            else
+                            {
+                                rookDest = _gameManager.GridManager.GetTileAtPosition(new Vector2Int(3, 7));
+                                kingDest = _gameManager.GridManager.GetTileAtPosition(new Vector2Int(2, 7));
+                            }
+
+                            Castle move = new Castle()
+                            {
+                                Rook = (Rook)nearRook,
+                                RookDestination = rookDest,
+                                MovingPiece = this,
+                                Destination = kingDest,
+                            };
+                            moves.Add(move);
                         }
                     }
                 }
             }
-            //Detect if the rook has not moved
-            return tiles;
+
+            return moves;
         }
 
         public bool IsInCheck()

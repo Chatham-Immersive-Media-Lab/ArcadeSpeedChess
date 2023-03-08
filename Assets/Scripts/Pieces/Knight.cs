@@ -20,7 +20,7 @@ namespace Chess
             new Vector2Int(-2,-1)
         };
 
-        public override List<Tile> ValidDestinations(bool checkTest = false)
+        public override List<Tile> ValidDestinations()
         {
             var gridManager = _currentTile.GetGridManager();
             var tiles = new List<Tile>();

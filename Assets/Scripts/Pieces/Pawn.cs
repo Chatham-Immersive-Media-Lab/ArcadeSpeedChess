@@ -8,7 +8,7 @@ public class Pawn : Piece
 {
     protected override string DisplayName => "Pawn";
 
-    public override List<Tile> ValidDestinations(bool checkTest = false)
+    public override List<Tile> ValidDestinations()
     { 
         //if valid add moves to list
         var tiles = new List<Tile>();
@@ -19,7 +19,6 @@ public class Pawn : Piece
         var upLeftDiag = upOne + Vector2Int.left;
         var upRightDiag = upOne + Vector2Int.right;
         //todo: en passant 
-        //todo: piece promotion
 
         var upOneTile = grid.GetTileAtPosition(upOne);
         var upTwoTile = grid.GetTileAtPosition(upTwo);
@@ -63,17 +62,16 @@ public class Pawn : Piece
                 }
             }
         }
-
-        if (checkTest)
-        {
-            return tiles;
-        }
         //Piece upgrade... don't bother when testing for check.
         
         
         return tiles;
     }
-    
-    
+
+    public override List<Move> AvailableMoves()
+    {
+        return base.AvailableMoves();
+        //todo: piece promotion
+    }
 }
 }

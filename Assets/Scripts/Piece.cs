@@ -70,6 +70,7 @@ namespace Chess
             _hasMoved = true;
             if (!tile.IsEmpty())
             {
+                //todo: when creating a default move, we can put the check for capture logic there. This would be a step needed to add undo support.
                 //if this is an opponent piece...
                 if (tile.GetPieceHere().Color == OppositeColor(_pieceColor))
                 {
@@ -88,10 +89,26 @@ namespace Chess
 
         }
 
-        public virtual List<Tile> ValidDestinations(bool checkTest = false)
+        public virtual List<Tile> ValidDestinations()
         {
-            var grid = _currentTile.GetGridManager();
+            // var grid = _currentTile.GetGridManager();
             return new List<Tile>();
+        }
+
+        public virtual List<Move> AvailableMoves()
+        {
+            var moves = new List<Move>();
+            foreach (var position in ValidDestinations())
+            {
+                Move m = new Move()
+                {
+                    MovingPiece = this,
+                    Destination = position
+                };
+                moves.Add(m);
+            }
+
+            return moves;
         }
 
         public void CaptureMe()

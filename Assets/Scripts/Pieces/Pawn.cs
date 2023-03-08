@@ -18,7 +18,6 @@ public class Pawn : Piece
         var upTwo = currentPos + new Vector2Int(0, GetFacingDirection()*2);
         var upLeftDiag = upOne + Vector2Int.left;
         var upRightDiag = upOne + Vector2Int.right;
-        //todo: en passant 
 
         var upOneTile = grid.GetTileAtPosition(upOne);
         var upTwoTile = grid.GetTileAtPosition(upTwo);
@@ -70,8 +69,55 @@ public class Pawn : Piece
 
     public override List<Move> AvailableMoves()
     {
-        return base.AvailableMoves();
+        var moves = new List<Move>();
+        Vector2Int twoOffset = new Vector2Int(0, GetFacingDirection() * 2);
+        foreach (var tile in ValidDestinations())
+        {
+            if ((tile.Position - _currentTile.Position) == twoOffset)
+            {
+                var skippedPos = _currentTile.Position + new Vector2Int(0, GetFacingDirection());
+                PawnMoveTwo m = new PawnMoveTwo()
+                {
+                    skippedTile = _gameManager.GridManager.GetTileAtPosition(skippedPos),
+                    MovingPiece = this,
+                    Destination = tile
+                };
+                moves.Add(m);
+            }
+            else
+            {
+                Move m = new Move()
+                {
+                    MovingPiece = this,
+                    Destination = tile
+                };
+                moves.Add(m);
+            }
+        }
+
         //todo: piece promotion
+        
+        //En Passant
+        var lastMove = MoveManager.GetLastMove();
+        //if the very previous move was the opponent moving a pawn two squares forward
+        if (lastMove != null && lastMove is PawnMoveTwo theirMove)
+        {
+            if (lastMove.MovingPiece is Pawn otherPawn)
+            {
+                var offset = Mathf.Abs(lastMove.Destination.Position.x - _currentTile.Position.x);
+                if (offset == 1)
+                {
+                    //we COULD en passant!
+                    var move = new EnPassant();
+                    move.AdjacentPawn = otherPawn;
+                    move.Destination = theirMove.skippedTile;//we know we wont capture here because they JUST moved through the empty space.
+                    move.MovingPiece = this;
+                    moves.Add(move);
+                }
+            }
+        }
+        //if we are adjacent to that pawn piece
+        return moves;
     }
 }
 }

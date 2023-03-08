@@ -118,7 +118,7 @@ namespace Chess
 
 		public void Move(Move move)
 		{
-			move.Execute();
+			MoveManager.ExecuteMove(move);
 			SetInputState(InputState.NotMyTurn);//this will fire off an event that the input square will listen to, and disable.
 			
 			//todo: Check if we moved a pawn and it is in a promotion position.

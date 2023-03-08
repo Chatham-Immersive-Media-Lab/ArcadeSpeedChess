@@ -10,10 +10,12 @@ namespace Chess
     {
         public PieceColor Color => _pieceColor;
         protected PieceColor _pieceColor;
+
+        public bool HasMoved => _hasMoved;
         protected bool _hasMoved; //Todo: initialize this correctly
         public Tile Tile => _currentTile;
         protected Tile _currentTile;
-        private GameManager _gameManager;
+        protected GameManager _gameManager;
         protected virtual string DisplayName => "Piece";
 
         public static PieceColor OppositeColor(PieceColor pieceColor)
@@ -38,7 +40,7 @@ namespace Chess
         {
             //Keep a reference so we can tell the game manager when we get captured, or subscribe to some event if needed.
             _gameManager = gameManager;
-            
+
             if (!startingTile.IsEmpty())
             {
                 Debug.LogError("There is already a piece on this tile, cannot init",startingTile);
@@ -86,7 +88,7 @@ namespace Chess
 
         }
 
-        public virtual List<Tile> ValidDestinations()
+        public virtual List<Tile> ValidDestinations(bool checkTest = false)
         {
             var grid = _currentTile.GetGridManager();
             return new List<Tile>();

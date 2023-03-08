@@ -7,7 +7,7 @@ namespace Chess
     {
         protected override string DisplayName => "Rook";
 
-        public override List<Tile> ValidDestinations()
+        public override List<Tile> ValidDestinations(bool checkTest = false)
         {
             var tiles = new List<Tile>();
             //var forward = currentPos + new Vector2Int

@@ -8,6 +8,7 @@ using UnityEngine;
 //Game Manager will track all the pieces on the board, and the players.
 public class GameManager : MonoBehaviour
 {
+    public GridManager GridManager => _gridManager;
     private GridManager _gridManager;
     private ChessBoardInitializer _chessBoardInitializer;
     private List<Piece> _allPieces;
@@ -48,6 +49,12 @@ public class GameManager : MonoBehaviour
     //tell the other player it's now their turn.
     public void OnPlayerFinishedTurn(Player player)
     {
+        //todo: Check if kings are in check.
+        if (player.King.IsInCheck())
+        {
+            //that's not a valid move!
+        }
+        
         //todo: clock switching. Maybe store separate game clocks with the Player object? I like that
         if (_activePlayer != null && player != _activePlayer)
         {
@@ -82,5 +89,39 @@ public class GameManager : MonoBehaviour
         {
             whitePlayer.PieceCaptured(piece);
         }
+    }
+
+    public Player ColorToPlayer(PieceColor playerColor)
+    {
+        if (playerColor == PieceColor.Black)
+        {
+            return blackPlayer;
+        }else if (playerColor == PieceColor.White)
+        {
+            return whitePlayer;
+        }
+
+        //should never happen
+        return null;
+    }
+
+    public bool IsSpaceInCheck(Vector2Int tilePos, PieceColor attackingColor)
+    {
+        Player attackingPlayer = ColorToPlayer(attackingColor);
+        //loop through all possible moves for all pieces of the attacking color and 
+        
+        var pieces = attackingPlayer.GetAvailablePieces();
+        foreach (var piece in pieces)
+        {
+            foreach (var destination in piece.ValidDestinations(true))
+            {
+                if (destination.Position == tilePos)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

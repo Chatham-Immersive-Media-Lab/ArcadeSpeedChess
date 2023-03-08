@@ -20,6 +20,8 @@ namespace Chess
 
 		public Piece SelectedPiece => _selectedPieceToMove;
 		private Piece _selectedPieceToMove;
+
+		public King King;
 		
 		private void Awake()
 		{
@@ -38,6 +40,16 @@ namespace Chess
 		{
 			_myPieces = startingPieces;
 			_piecesWithAvailableMoves = new List<Piece>();
+			
+			//set reference to king for conveninence
+			foreach (var piece in _myPieces)
+			{
+				if (piece is King king)
+				{
+					this.King = king;
+					break;
+				}
+			}
 		}
 
 		//Called by gameManager after one of this players pieces has been captured.

@@ -9,7 +9,7 @@ namespace Chess
     {
         protected override string DisplayName => "Queen";
 
-        public override List<Tile> ValidDestinations()
+        public override List<Tile> ValidDestinations(bool checkTest = false)
         {
             //if valid add moves to list
             var tiles = new List<Tile>();

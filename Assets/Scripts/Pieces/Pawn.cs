@@ -8,7 +8,7 @@ public class Pawn : Piece
 {
     protected override string DisplayName => "Pawn";
 
-    public override List<Tile> ValidDestinations()
+    public override List<Tile> ValidDestinations(bool checkTest = false)
     { 
         //if valid add moves to list
         var tiles = new List<Tile>();
@@ -63,6 +63,13 @@ public class Pawn : Piece
                 }
             }
         }
+
+        if (checkTest)
+        {
+            return tiles;
+        }
+        //Piece upgrade... don't bother when testing for check.
+        
         
         return tiles;
     }

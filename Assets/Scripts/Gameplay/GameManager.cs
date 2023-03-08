@@ -145,4 +145,15 @@ public class GameManager : MonoBehaviour
 
         return false;
     }
+
+    //only call this if a king is in check
+    public void CheckForCheckMate(King victim)
+    {
+        //check if king is currently in check... again? 
+        //check if the king has any available moves (king moves checks for check). 
+        //if so, not checkmate.
+        //otherwise, get all pieces with available moves
+        //loop through each piece.
+        //
+    }
 }

@@ -24,7 +24,7 @@ namespace Chess
             {
                 for (int y = 0; y < height; y++)
                 {
-                    var spawnedTile = Instantiate(tilePrefab, new Vector3(x, y), quaternion.identity);
+                    var spawnedTile = Instantiate(tilePrefab, GridToWorld(x,y), quaternion.identity);
                     spawnedTile.name = $"Tile {x} {y}";
 
 
@@ -37,6 +37,15 @@ namespace Chess
             //transforms the camera position to center around the created grid
             cam.transform.position = new Vector3((float) width / 2 - 0.5f, (float) height / 2 - 0.5f, -10f);
             background.transform.position = new Vector3((float) width / 2 - 0.5f, (float) height / 2 - 0.5f, 0f);
+        }
+
+        public static Vector3 GridToWorld(Vector2Int pos)
+        {
+            return GridToWorld(pos.x, pos.y);
+        }
+        public static Vector3 GridToWorld(int x, int y)
+        {
+            return new Vector3(x, y, 0);
         }
 
         public Tile GetTileAtPosition(Vector2Int pos)

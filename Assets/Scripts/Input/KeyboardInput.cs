@@ -52,7 +52,6 @@ namespace Chess
 			bool upDown = Input.GetKeyDown(KeyCode.UpArrow);
 			bool downDown = Input.GetKeyDown(KeyCode.DownArrow);
 
-			int horizontal = 0;
 			if (rightDown && !left)
 			{
 				if (up)

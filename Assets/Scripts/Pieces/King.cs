@@ -31,21 +31,21 @@ namespace Chess
             }
             //Detect if the rook has not moved
 
-            for (int i = tiles.Count-1; i >= 0; i--)
-            {
-                if(_gameManager.IsSpaceInCheck(tiles[i].Position, OppositeColor(_pieceColor)))
-                {
-                    tiles.Remove(tiles[i]);
-                }
-            }
+            
             return tiles;
         }
 
         public override List<Move> AvailableMoves()
         {
             var moves= base.AvailableMoves();
-
-             
+            //remove spaces where king is in check.
+            for (int i = moves.Count-1; i >= 0; i--)
+            {
+                if(_gameManager.IsSpaceInCheck(moves[i].Destination.Position, OppositeColor(_pieceColor)))
+                {
+                    moves.Remove(moves[i]);
+                }
+            }
             //if we are white or black, set the values for "nearside spaces" and "farside spaces" values accordingly.
             Vector2Int nearRookPos = Vector2Int.zero;
             Vector2Int farRookPos = Vector2Int.zero;

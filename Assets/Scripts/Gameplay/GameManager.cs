@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Player blackPlayer;
     private Player _activePlayer;
 
+    private int _turnCount = 0;
     public ChessTimer Timer => _timer;
     private ChessTimer _timer;
 
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
         whitePlayer.SetStartingPieces(_allPieces.Where(x=>x.Color == PieceColor.White).ToList());
         blackPlayer.Init(this,PieceColor.Black);
         blackPlayer.SetStartingPieces(_allPieces.Where(x => x.Color == PieceColor.Black).ToList());
-
+        _turnCount = 0;
         whitePlayer.SetTurnActive();
         
         //start timer
@@ -74,17 +75,27 @@ public class GameManager : MonoBehaviour
             _activePlayer = blackPlayer;
             blackPlayer.SetTurnActive();
             _timer.StartTimeForPlayer(PieceColor.Black);
+            if (_turnCount > 1)
+            {
+                _timer.AddTimeToPlayer(PieceColor.White,2);
+            }
         }
         else if(player == blackPlayer)
         {
             _activePlayer = whitePlayer;
             whitePlayer.SetTurnActive();
             _timer.StartTimeForPlayer(PieceColor.White);
+            if (_turnCount > 1)
+            {
+                _timer.AddTimeToPlayer(PieceColor.Black, 2);
+            }
         }
         else
         {
             Debug.LogError("Can't Finish player turn for "+player);
         }
+
+        _turnCount++;
     }
 
     public void PieceCaptured(Piece piece)

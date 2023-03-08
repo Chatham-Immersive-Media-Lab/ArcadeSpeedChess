@@ -16,6 +16,8 @@ namespace Chess
         public Tile Tile => _currentTile;
         protected Tile _currentTile;
         protected GameManager _gameManager;
+
+        protected List<Tile> tiles = new List<Tile>();
         protected virtual string DisplayName => "Piece";
 
         public static PieceColor OppositeColor(PieceColor pieceColor)
@@ -92,7 +94,7 @@ namespace Chess
         public virtual List<Tile> ValidDestinations()
         {
             // var grid = _currentTile.GetGridManager();
-            return new List<Tile>();
+            return tiles;
         }
 
         public virtual List<Move> AvailableMoves()

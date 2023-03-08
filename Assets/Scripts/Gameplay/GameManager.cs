@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using Chess;
 using UnityEngine;
 
@@ -110,6 +111,21 @@ public class GameManager : MonoBehaviour
         {
             whitePlayer.PieceCaptured(piece);
         }
+
+        if (piece is King king)
+        {
+            //The game ends
+            GameIsOver(Piece.OppositeColor(king.Color));
+        }
+    }
+
+    private void GameIsOver(PieceColor winner)
+    {
+        _timer.Stop();
+        //broadcast static action that UI listens to
+        //change player input to game over state
+        //after both players want to restart... we restart
+        //flip board side? change player->arcade input?
     }
 
     public Player ColorToPlayer(PieceColor playerColor)

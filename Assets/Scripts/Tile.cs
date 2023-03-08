@@ -69,6 +69,11 @@ namespace Chess
             _currentPiece = null;
         }
 
-
+        //todo: test this?
+        public string GetTileName()
+        {
+            string row = "abcdefgh";
+            return row[_position.x] + (_position.y+1).ToString();
+        }
     }
 }

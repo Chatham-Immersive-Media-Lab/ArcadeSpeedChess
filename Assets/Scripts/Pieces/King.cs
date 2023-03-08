@@ -47,6 +47,8 @@ namespace Chess
                 }
             }
             //if we are white or black, set the values for "nearside spaces" and "farside spaces" values accordingly.
+            //todo: rename "near" to "kingside"
+            //todo: rename "far" to "queenside"
             Vector2Int nearRookPos = Vector2Int.zero;
             Vector2Int farRookPos = Vector2Int.zero;
             List<Vector2Int> nearBetweenPos = new List<Vector2Int>(); //empty spaces between king and rook. We have to check that the king does not "pass through" check for these spaces.

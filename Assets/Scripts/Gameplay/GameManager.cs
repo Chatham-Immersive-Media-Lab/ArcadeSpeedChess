@@ -4,16 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using Chess;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //Game Manager will track all the pieces on the board, and the players.
 public class GameManager : MonoBehaviour
 {
+    [Header("UI Config")]
+    [SerializeField] private GameSplash _splash;
     public GridManager GridManager => _gridManager;
     private GridManager _gridManager;
     private ChessBoardInitializer _chessBoardInitializer;
     private List<Piece> _allPieces;
 
+    [Header("Player Setup")]
     public Player whitePlayer;
     public Player blackPlayer;
     private Player _activePlayer;
@@ -27,23 +31,30 @@ public class GameManager : MonoBehaviour
         _chessBoardInitializer = GetComponent<ChessBoardInitializer>();
         _gridManager = GetComponent<GridManager>();
         _timer = new ChessTimer(new TimeSpan(0,0,3,0));
+        whitePlayer.Init(this, PieceColor.White,InputState.StartSplash);
+        blackPlayer.Init(this, PieceColor.Black,InputState.StartSplash);
+        _splash.Display();
+    }
+    
+
+    private void OnEnable()
+    {
+        GameSplash.OnStartGame += InitNewGame;
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        InitNewGame();
+        GameSplash.OnStartGame -= InitNewGame;
     }
+    
 
     private void InitNewGame()
     {
         //todo: Clear current game if needed.
-
         _gridManager.GenerateGrid();
         _allPieces = _chessBoardInitializer.CreateStartingChessBoard(this, _gridManager);
         //Init players. We just tell them what color to be because I WILL forget to set an enum in the inspector.
-        whitePlayer.Init(this,PieceColor.White);
         whitePlayer.SetStartingPieces(_allPieces.Where(x=>x.Color == PieceColor.White).ToList());
-        blackPlayer.Init(this,PieceColor.Black);
         blackPlayer.SetStartingPieces(_allPieces.Where(x => x.Color == PieceColor.Black).ToList());
         _turnCount = 0;
         whitePlayer.SetTurnActive();
@@ -171,5 +182,10 @@ public class GameManager : MonoBehaviour
         //otherwise, get all pieces with available moves
         //loop through each piece.
         //
+    }
+
+    public void SelectReadyToStartGame(Player player)
+    {
+        _splash.SetPlayerReady(player.Color);
     }
 }

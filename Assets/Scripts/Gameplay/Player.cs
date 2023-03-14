@@ -28,13 +28,13 @@ namespace Chess
 			_inputState = InputState.NotGameplay;
 		}
 
-		public void Init(GameManager manager, PieceColor color)
+		public void Init(GameManager manager, PieceColor color, InputState startingState)
 		{
 			_manager = manager;
 			_myColor = color;
 			//todo: subscribe to afterMove event to update availableMoves.
 			
-			SetInputState(InputState.NotMyTurn);
+			SetInputState(InputState.StartSplash);
 		}
 		public void SetStartingPieces(List<Piece> startingPieces)
 		{
@@ -155,6 +155,11 @@ namespace Chess
 		public List<Piece> GetAvailablePieces()
 		{
 			return _piecesWithAvailableMoves;
+		}
+
+		public void CallReadyToStartGame()
+		{
+			_manager.SelectReadyToStartGame(this);
 		}
 	}
 }

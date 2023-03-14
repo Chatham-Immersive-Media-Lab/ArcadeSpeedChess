@@ -34,6 +34,10 @@ namespace Chess
 
 		public void Move(Vector2Int dir)
 		{
+			if (_player.State == InputState.NotGameplay || _player.State == InputState.StartSplash)
+			{
+				return;
+			}
 			//selecting pieces when its not our turn might be important for speedchess.
 			if (!_isActive)
 			{
@@ -59,15 +63,20 @@ namespace Chess
 			{
 				return;
 			}
-			
-			if (_player.State == InputState.ChoosingPiece)
+
+			switch (_player.State)
 			{
-				_player.ChoosePieceToMove(selectedTile.GetPieceHere());
-				//have chosen this piece to select a move from.
-			}else if (_player.State == InputState.ChoosingMove)
-			{
-				//we have chosen this piece to move to.
-				_player.Move(_availableMoves[selectedTile]);
+				case InputState.ChoosingMove:
+					_player.Move(_availableMoves[selectedTile]);
+					break;
+				case InputState.ChoosingPiece:
+					_player.ChoosePieceToMove(selectedTile.GetPieceHere());
+					break;
+				case InputState.StartSplash:
+					_player.CallReadyToStartGame();
+					break;
+				default:
+					return;
 			}
 		}
 
@@ -112,9 +121,13 @@ namespace Chess
 				SnapToClosestAvailable();
 			}else if (state == InputState.ChoosePawnPromotionPiece)
 			{
+				SetInputActive(true);
 				//open pop-up. Activate piece selection, and wait for callback that it finished selection,
 				//then call this move with the correct piece.
 				_player.OnPlayerFinishedChoosingPawnPromotionPiece(null);
+			}else if (state == InputState.StartSplash)
+			{
+				SetInputActive(true);
 			}
 		}
 

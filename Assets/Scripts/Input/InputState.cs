@@ -1,6 +1,7 @@
 ﻿public enum InputState
 {
 	NotGameplay,
+	StartSplash,
 	NotMyTurn,
 	ChoosingPiece,
 	ChoosingMove,

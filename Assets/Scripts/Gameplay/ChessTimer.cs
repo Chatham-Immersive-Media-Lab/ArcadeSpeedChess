@@ -55,6 +55,8 @@ namespace Chess
 		public void Stop()
 		{
 			_active = false;
+			_blackTime.Stop();
+			_whiteTime.Stop();
 		}
 
 		public string GetDisplayText(PieceColor color)

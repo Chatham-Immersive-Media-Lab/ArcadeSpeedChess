@@ -37,7 +37,7 @@ namespace Chess
 			_splashOver = true;
 			//turn off the ui panel for it
 			OnStartGame?.Invoke();
-			
+			Display(false);
 		}
 
 		public void SetPlayerReady(PieceColor color)

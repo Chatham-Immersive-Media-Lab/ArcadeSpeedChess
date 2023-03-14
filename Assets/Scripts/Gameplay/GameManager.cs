@@ -48,15 +48,16 @@ public class GameManager : MonoBehaviour
     {
         whitePlayer.Init(this, PieceColor.White,InputState.StartSplash);
         blackPlayer.Init(this, PieceColor.Black,InputState.StartSplash);
-    }
-    private void InitNewGame()
-    {
-        //todo: Clear current game if needed.
+        //
         _gridManager.GenerateGrid();
         _allPieces = _chessBoardInitializer.CreateStartingChessBoard(this, _gridManager);
         //Init players. We just tell them what color to be because I WILL forget to set an enum in the inspector.
         whitePlayer.SetStartingPieces(_allPieces.Where(x=>x.Color == PieceColor.White).ToList());
         blackPlayer.SetStartingPieces(_allPieces.Where(x => x.Color == PieceColor.Black).ToList());
+    }
+    private void InitNewGame()
+    {
+        //todo: Clear current game if needed.
         _turnCount = 0;
         whitePlayer.NewGame(true);
         blackPlayer.NewGame(false);

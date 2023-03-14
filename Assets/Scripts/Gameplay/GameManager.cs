@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using Chess;
+using Chess.UI;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
 {
     [Header("UI Config")]
     [SerializeField] private GameSplash _splash;
+
+    [SerializeField] private UIGameOverPanel _gameOverPanel;
     public GridManager GridManager => _gridManager;
     private GridManager _gridManager;
     private ChessBoardInitializer _chessBoardInitializer;
@@ -140,6 +143,8 @@ public class GameManager : MonoBehaviour
         //change player input to game over state
         //after both players want to restart... we restart
         //flip board side? change player->arcade input?
+        
+        _gameOverPanel.SetVictory(winner);
     }
 
     public Player ColorToPlayer(PieceColor playerColor)

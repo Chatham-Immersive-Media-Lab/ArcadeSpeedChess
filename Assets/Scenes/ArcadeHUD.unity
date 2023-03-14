@@ -1482,6 +1482,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeca8ef8ec811fd44a6a14b6734cf0df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartingMinutes: 3
+  StartingSeconds: 0
+  SecondsToAddEachTurn: 2
   _splash: {fileID: 1417533144}
   _gameOverPanel: {fileID: 302454527}
   whitePlayer: {fileID: 116712115}

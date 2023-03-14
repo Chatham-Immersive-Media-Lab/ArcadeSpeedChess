@@ -11,6 +11,11 @@ using UnityEngine;
 //Game Manager will track all the pieces on the board, and the players.
 public class GameManager : MonoBehaviour
 {
+    [Header("Game Config")]
+    public int StartingMinutes = 3;
+    public int StartingSeconds = 0;
+    public int SecondsToAddEachTurn = 2;
+    
     [Header("UI Config")]
     [SerializeField] private GameSplash _splash;
 
@@ -28,12 +33,12 @@ public class GameManager : MonoBehaviour
     private int _turnCount = 0;
     public ChessTimer Timer => _timer;
     private ChessTimer _timer;
-
+    
     private void Awake()
     {
         _chessBoardInitializer = GetComponent<ChessBoardInitializer>();
         _gridManager = GetComponent<GridManager>();
-        _timer = new ChessTimer(new TimeSpan(0,0,3,0));
+        _timer = new ChessTimer(new TimeSpan(0,0,StartingMinutes,StartingSeconds));
         _splash.Display();
     }
     
@@ -95,7 +100,7 @@ public class GameManager : MonoBehaviour
             _timer.StartTimeForPlayer(PieceColor.Black);
             if (_turnCount > 1)
             {
-                _timer.AddTimeToPlayer(PieceColor.White,2);
+                _timer.AddTimeToPlayer(PieceColor.White,SecondsToAddEachTurn);
             }
         }
         else if(player == blackPlayer)
@@ -105,7 +110,7 @@ public class GameManager : MonoBehaviour
             _timer.StartTimeForPlayer(PieceColor.White);
             if (_turnCount > 1)
             {
-                _timer.AddTimeToPlayer(PieceColor.Black, 2);
+                _timer.AddTimeToPlayer(PieceColor.Black, SecondsToAddEachTurn);
             }
         }
         else
@@ -133,6 +138,17 @@ public class GameManager : MonoBehaviour
         {
             //The game ends
             GameIsOver(Piece.OppositeColor(king.Color));
+        }
+    }
+
+    private void Update()
+    {
+        if (_timer.IsPlayerOutOfTime(PieceColor.Black))
+        {
+            GameIsOver(PieceColor.White);
+        }else if (_timer.IsPlayerOutOfTime(PieceColor.White))
+        {
+            GameIsOver(PieceColor.Black);
         }
     }
 

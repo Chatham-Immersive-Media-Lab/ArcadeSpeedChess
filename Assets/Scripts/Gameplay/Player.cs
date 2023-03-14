@@ -34,7 +34,7 @@ namespace Chess
 			_myColor = color;
 			//todo: subscribe to afterMove event to update availableMoves.
 			
-			SetInputState(InputState.StartSplash);
+			SetInputState(startingState);
 		}
 		public void SetStartingPieces(List<Piece> startingPieces)
 		{
@@ -160,6 +160,16 @@ namespace Chess
 		public void CallReadyToStartGame()
 		{
 			_manager.SelectReadyToStartGame(this);
+		}
+
+		public void NewGame(bool isTurnActive)
+		{
+			//get ready to start the game.
+			SetInputState(InputState.NotMyTurn);
+			if(isTurnActive)
+			{
+				SetTurnActive();
+			}
 		}
 	}
 }

@@ -57,7 +57,8 @@ public class GameManager : MonoBehaviour
         whitePlayer.SetStartingPieces(_allPieces.Where(x=>x.Color == PieceColor.White).ToList());
         blackPlayer.SetStartingPieces(_allPieces.Where(x => x.Color == PieceColor.Black).ToList());
         _turnCount = 0;
-        whitePlayer.SetTurnActive();
+        whitePlayer.NewGame(true);
+        blackPlayer.NewGame(false);
         
         //start timer
         _timer.StartTimeForPlayer(PieceColor.White);

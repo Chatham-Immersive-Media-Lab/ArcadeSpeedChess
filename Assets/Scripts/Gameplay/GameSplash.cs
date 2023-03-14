@@ -28,6 +28,7 @@ namespace Chess
 		{
 			//turn off the ui panel for it
 			OnStartGame?.Invoke();
+			Display(false);
 		}
 
 		public void SetPlayerReady(PieceColor color)
@@ -42,9 +43,9 @@ namespace Chess
 		}
 
 		//not needed in current setup but shh
-		public void Display()
+		public void Display(bool active = true)
 		{
-			_splashPanel.SetActive(true);
+			_splashPanel.SetActive(active);
 		}
 	}
 }

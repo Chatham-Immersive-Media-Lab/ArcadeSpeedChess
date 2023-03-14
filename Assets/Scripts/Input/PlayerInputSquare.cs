@@ -127,7 +127,8 @@ namespace Chess
 				_player.OnPlayerFinishedChoosingPawnPromotionPiece(null);
 			}else if (state == InputState.StartSplash)
 			{
-				SetInputActive(true);
+				SetInputActive(true);//turns on the sprite renderer
+				_spriteRenderer.enabled = false;//doesnt.
 			}
 		}
 

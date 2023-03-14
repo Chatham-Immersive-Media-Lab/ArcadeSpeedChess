@@ -79,7 +79,7 @@ namespace Chess
 		{
 			if (state == _inputState)
 			{
-				Debug.LogError("Cant set state to current state");
+				Debug.LogError("Cant set state to current state: "+state);
 				return;
 			}
 			_inputState = state;

@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
         _chessBoardInitializer = GetComponent<ChessBoardInitializer>();
         _gridManager = GetComponent<GridManager>();
         _timer = new ChessTimer(new TimeSpan(0,0,3,0));
-        whitePlayer.Init(this, PieceColor.White,InputState.StartSplash);
-        blackPlayer.Init(this, PieceColor.Black,InputState.StartSplash);
         _splash.Display();
     }
     
@@ -46,8 +44,11 @@ public class GameManager : MonoBehaviour
     {
         GameSplash.OnStartGame -= InitNewGame;
     }
-    
-
+    void Start()
+    {
+        whitePlayer.Init(this, PieceColor.White,InputState.StartSplash);
+        blackPlayer.Init(this, PieceColor.Black,InputState.StartSplash);
+    }
     private void InitNewGame()
     {
         //todo: Clear current game if needed.

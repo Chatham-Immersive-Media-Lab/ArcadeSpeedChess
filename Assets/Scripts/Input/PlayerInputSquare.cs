@@ -8,6 +8,7 @@ namespace Chess
 	public class PlayerInputSquare : MonoBehaviour
 	{
 		[SerializeField] private Player _player;
+		[SerializeField] private PromotionDialogue _promotionUI;
 		private SpriteRenderer _spriteRenderer;
 		public bool IsActive => _isActive;
 		private bool _isActive;
@@ -43,7 +44,20 @@ namespace Chess
 			{
 				return;
 			}
-			//
+
+			if (_player.State == InputState.ChoosePawnPromotionPiece)
+			{
+				if (dir.x == -1)
+				{
+					_promotionUI.CycleLeft();
+				}else if (dir.x == 1)
+				{
+					_promotionUI.CycleRight();
+				}
+
+				return;
+			}
+			
 			var best = GetBestMovementTile(selectedTile,dir,_inputOptionTiles);
 			if (best != null)
 			{
@@ -74,6 +88,9 @@ namespace Chess
 					break;
 				case InputState.StartSplash:
 					_player.CallReadyToStartGame();
+					break;
+				case InputState.ChoosePawnPromotionPiece:
+					_player.OnPlayerFinishedChoosingPawnPromotionPiece(_promotionUI.GetChosenPiece());
 					break;
 				default:
 					return;
@@ -122,9 +139,10 @@ namespace Chess
 			}else if (state == InputState.ChoosePawnPromotionPiece)
 			{
 				SetInputActive(true);
-				//open pop-up. Activate piece selection, and wait for callback that it finished selection,
+				//open pop-up. Activate piece selection, and wait for callback that it finished selection.
 				//then call this move with the correct piece.
-				_player.OnPlayerFinishedChoosingPawnPromotionPiece(null);
+				_promotionUI.DisplayPromotionPanel();
+				// _player.OnPlayerFinishedChoosingPawnPromotionPiece(null);
 			}else if (state == InputState.StartSplash)
 			{
 				SetInputActive(true);//turns on the sprite renderer

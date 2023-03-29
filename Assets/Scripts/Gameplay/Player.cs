@@ -22,7 +22,7 @@ namespace Chess
 		private Piece _selectedPieceToMove;
 
 		public King King;
-		
+		private Piece _promotingPawn = null;
 		private void Awake()
 		{
 			_inputState = InputState.NotGameplay;
@@ -119,12 +119,27 @@ namespace Chess
 		public void Move(Move move)
 		{
 			MoveManager.ExecuteMove(move);
-			SetInputState(InputState.NotMyTurn);//this will fire off an event that the input square will listen to, and disable.
+			SetInputState(InputState.NotMyTurn); //this will fire off an event that the input square will listen to, and disable.
+
 			
-			//todo: Check if we moved a pawn and it is in a promotion position.
+			//Check for automatic pawn promotion. When pawn reaches the opposite end side of the board.
 			bool pawnCanPromote = false;
+			if (move.MovingPiece is Pawn p)
+			{
+				if (_myColor == PieceColor.White && move.Destination.Position.y == 7)
+				{
+					_promotingPawn = move.MovingPiece;
+					pawnCanPromote = true;
+				}else if (_myColor == PieceColor.Black && move.Destination.Position.x == 0)
+				{
+					_promotingPawn = move.MovingPiece;
+					pawnCanPromote = true;
+				}
+			}
+
 			if (pawnCanPromote)
 			{
+				//don't end the turn. Start this input state, which will end when we get OnPlayerFinishedChoosingPawnPromotionPiece.
 				SetInputState(InputState.ChoosePawnPromotionPiece);
 			}
 			else
@@ -135,6 +150,7 @@ namespace Chess
 
 		public void OnPlayerFinishedChoosingPawnPromotionPiece(Piece promotionPrefab)
 		{
+			
 			//swap the pawn for promotionPrefab.
 			_manager.OnPlayerFinishedTurn(this);
 		}

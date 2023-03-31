@@ -150,8 +150,20 @@ namespace Chess
 
 		public void OnPlayerFinishedChoosingPawnPromotionPiece(Piece promotionPrefab)
 		{
-			
 			//swap the pawn for promotionPrefab.
+
+			//Get rid of existing piece.
+			Debug.Assert(_promotingPawn != null,"Can't promote piece, no pawn to promote",this);
+			var tile = _promotingPawn.Tile;
+			_promotingPawn.Tile.ClearPiece();
+			_myPieces.Remove(_promotingPawn);
+			Destroy(_promotingPawn);
+			
+			//Add the new piece
+			//todo: put wraper function in manager, we dont need to use two accessors the manager has.
+			var newPiece = _manager.ChessBoardInitializer.PutPieceOnPosition(_manager.GridManager,promotionPrefab,_myColor,tile.Position);
+			_myPieces.Add(newPiece);
+
 			_manager.OnPlayerFinishedTurn(this);
 		}
 

@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIGameOverPanel _gameOverPanel;
     public GridManager GridManager => _gridManager;
     private GridManager _gridManager;
+    public ChessBoardInitializer ChessBoardInitializer => _chessBoardInitializer;
     private ChessBoardInitializer _chessBoardInitializer;
     private List<Piece> _allPieces;
 

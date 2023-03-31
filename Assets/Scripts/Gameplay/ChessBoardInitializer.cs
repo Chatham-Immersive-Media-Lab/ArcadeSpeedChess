@@ -60,12 +60,13 @@ namespace Chess
 			return _createdPieces;
 		}
 
-		public void PutPieceOnPosition(GridManager grid, Piece prefab, PieceColor color, Vector2Int position)
+		public Piece PutPieceOnPosition(GridManager grid, Piece prefab, PieceColor color, Vector2Int position)
 		{
 			var tile = grid.GetTileAtPosition(position);
 			Piece piece = Instantiate(prefab);
 			piece.Init(_gameManager,tile,color);
 			_createdPieces.Add(piece);
+			return piece;
 		}
 	}
 }

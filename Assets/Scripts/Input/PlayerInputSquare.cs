@@ -90,7 +90,8 @@ namespace Chess
 					_player.CallReadyToStartGame();
 					break;
 				case InputState.ChoosePawnPromotionPiece:
-					_player.OnPlayerFinishedChoosingPawnPromotionPiece(_promotionUI.GetChosenPiece());
+					_promotionUI.DisplayPromotionPanel(false);
+					_player.OnPlayerFinishedChoosingPawnPromotionPiece(_promotionUI.GetChosenPiecePrefab());
 					break;
 				default:
 					return;
@@ -141,7 +142,7 @@ namespace Chess
 				SetInputActive(true);
 				//open pop-up. Activate piece selection, and wait for callback that it finished selection.
 				//then call this move with the correct piece.
-				_promotionUI.DisplayPromotionPanel();
+				_promotionUI.DisplayPromotionPanel(true);
 				// _player.OnPlayerFinishedChoosingPawnPromotionPiece(null);
 			}else if (state == InputState.StartSplash)
 			{

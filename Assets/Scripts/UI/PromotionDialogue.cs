@@ -16,11 +16,16 @@ namespace Chess
         {
             gameObject.SetActive(false);
         }
-        public void DisplayPromotionPanel()
+        public void DisplayPromotionPanel(bool display)
         {
-            currentIndex = 0;
-            gameObject.SetActive(true);
-            RefreshUI();
+            if (display)
+            {
+                //reset when turning on.
+                currentIndex = 0;
+                RefreshUI();
+            }
+
+            gameObject.SetActive(display);
         }
 
         private void RefreshUI()
@@ -35,6 +40,7 @@ namespace Chess
             {
                 currentIndex = 0;
             }
+            RefreshUI();
         }
 
         public void CycleLeft()
@@ -44,17 +50,18 @@ namespace Chess
             {
                 currentIndex = _promotionOptions.Length - 1;
             }
+            RefreshUI();
+        }
+
+        public Piece GetChosenPiecePrefab()
+        {
+            return _promotionOptions[currentIndex].prefab;
         }
 
         void SelectPiece()
         {
             gameObject.SetActive(false);
             return ;
-        }
-
-        public Piece GetChosenPiece()
-        {
-            return _promotionOptions[currentIndex].prefab;
         }
     }
 

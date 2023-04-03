@@ -14,6 +14,7 @@ namespace Chess
 		//dumb fixes for using the same keyboard input for both players, and having them both press select the same frame. lol oops.
 		private static bool _selectedThisFrame;
 		private static bool _movedThisFrame;
+		public KeyCode selectKey;
 		private void Awake()
 		{
 			_inputSquare = GetComponent<PlayerInputSquare>();
@@ -30,7 +31,7 @@ namespace Chess
 		private void InputTick()
 		{
 			//Select Input.
-			if (Input.GetKeyDown(KeyCode.Space) && !_selectedThisFrame)
+			if (Input.GetKeyDown(selectKey) && !_selectedThisFrame)
 			{
 				_selectedThisFrame = true;
 				_inputSquare.Select();

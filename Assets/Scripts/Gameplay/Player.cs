@@ -130,7 +130,7 @@ namespace Chess
 				{
 					_promotingPawn = move.MovingPiece;
 					pawnCanPromote = true;
-				}else if (_myColor == PieceColor.Black && move.Destination.Position.x == 0)
+				}else if (_myColor == PieceColor.Black && move.Destination.Position.y == 0)
 				{
 					_promotingPawn = move.MovingPiece;
 					pawnCanPromote = true;
@@ -157,13 +157,19 @@ namespace Chess
 			var tile = _promotingPawn.Tile;
 			_promotingPawn.Tile.ClearPiece();
 			_myPieces.Remove(_promotingPawn);
-			Destroy(_promotingPawn);
+			if (_piecesWithAvailableMoves.Contains(_promotingPawn))
+			{
+				_piecesWithAvailableMoves.Remove(_promotingPawn);
+			}
+			Destroy(_promotingPawn.gameObject);
 			
 			//Add the new piece
-			//todo: put wraper function in manager, we dont need to use two accessors the manager has.
+			//todo: put wrapper function in manager, we dont need to use two accessors the manager has.
 			var newPiece = _manager.ChessBoardInitializer.PutPieceOnPosition(_manager.GridManager,promotionPrefab,_myColor,tile.Position);
 			_myPieces.Add(newPiece);
-
+			
+			SetInputState(InputState.NotMyTurn); 
+			
 			_manager.OnPlayerFinishedTurn(this);
 		}
 
@@ -176,7 +182,7 @@ namespace Chess
 			}
 			else
 			{
-				Debug.LogError("Cant choose that piece!");
+				Debug.LogError("Can't choose that piece!");
 			}
 		}
 

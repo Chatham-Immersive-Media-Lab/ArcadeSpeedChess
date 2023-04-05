@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Chess
 {
-    public class Bishop: Piece
+    public class Bishop : Piece
     {
         protected override string DisplayName => "Bishop";
 

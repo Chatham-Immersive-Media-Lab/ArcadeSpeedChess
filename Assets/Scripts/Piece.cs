@@ -8,6 +8,10 @@ namespace Chess
     
     public class Piece : MonoBehaviour
     {
+        private SpriteRenderer _spriteRenderer;
+        [SerializeField] private Sprite _blackSprite;
+        [SerializeField] private Sprite _whiteSprite;
+        
         public PieceColor Color => _pieceColor;
         protected PieceColor _pieceColor;
 
@@ -19,6 +23,15 @@ namespace Chess
 
         protected List<Tile> tiles = new List<Tile>();
         protected virtual string DisplayName => "Piece";
+
+        private void Awake()
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            if (_spriteRenderer == null)
+            {
+                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            }
+        }
 
         public static PieceColor OppositeColor(PieceColor pieceColor)
         {
@@ -65,6 +78,19 @@ namespace Chess
             //before deciding to add a display name to the piece class.
             //It would be easier to have the piece class have a display name...
             gameObject.name = _pieceColor.ToString() + DisplayName;
+            
+            //Initialize Graphics
+            if(_spriteRenderer != null)
+            if (color == PieceColor.Black)
+            {
+                _spriteRenderer.sprite = _blackSprite;
+                _spriteRenderer.flipY = true;
+                // _spriteRenderer.flipX = true;
+            }else if (color == PieceColor.White)
+            {
+                _spriteRenderer.sprite = _whiteSprite;
+            }
+            
             
         }
         public void Move(Tile tile)

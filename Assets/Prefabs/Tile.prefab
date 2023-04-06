@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462e36d9c9f70c94586cc0b07de35cd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseColor: {r: 0, g: 0, b: 0, a: 1}
+  baseColor: {r: 0.3773585, g: 0.30793878, b: 0.30793878, a: 1}
   offsetColor: {r: 1, g: 1, b: 1, a: 1}
   spriteRenderer: {fileID: 2607367813645786647}
   highLight: {fileID: 4949024583845278326}

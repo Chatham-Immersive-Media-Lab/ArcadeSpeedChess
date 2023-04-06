@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArcadeCabinet;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Chess
 {
@@ -56,6 +58,22 @@ namespace Chess
             }
         }
 
+        public void OnOnePlayer(InputValue value)
+        {
+            Restart();
+        }
+
+        public void OnTwoPlayer(InputValue value)
+        {
+            Restart();
+        }
+
+        //todo: hack for joseph testing day. Move to appropriate location.
+        private void Restart()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
         private Vector2Int AsVec2Int(Vector2 dir)
         {
             int x = dir.x > 0.5 ? 1 : (dir.x < -0.5 ? -1 : 0);
@@ -63,5 +81,6 @@ namespace Chess
 
             return new Vector2Int(x, y);
         }
+        
     }
 }

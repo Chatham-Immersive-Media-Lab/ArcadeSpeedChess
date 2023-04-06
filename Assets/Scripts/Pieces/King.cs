@@ -66,7 +66,7 @@ namespace Chess
             }else if (_pieceColor == PieceColor.Black)
             {
                 nearRookPos = new Vector2Int(7, 7); //top right
-                farRookPos = new Vector2Int(7, 7); //top left
+                farRookPos = new Vector2Int(0, 7); //top left
                 nearBetweenPos.Add(new Vector2Int(6, 7));
                 nearBetweenPos.Add(new Vector2Int(5, 7));
                 farBetweenPos.Add(new Vector2Int(1, 7));

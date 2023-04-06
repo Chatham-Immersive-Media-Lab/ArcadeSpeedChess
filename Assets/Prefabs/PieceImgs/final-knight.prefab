@@ -270,5 +270,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbdd540e061d4c4880f55b2925e13a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blackSprite: {fileID: 21300000, guid: 6d55ad9289fbd4f4485bc214f5ad03d0, type: 3}
-  _whiteSprite: {fileID: 21300000, guid: 448b740b934ce494bb9596b43b9e1f72, type: 3}
+  _blackSprite: {fileID: 21300000, guid: 5e5f190465e8b12438af1232d8da4feb, type: 3}
+  _whiteSprite: {fileID: 21300000, guid: 750a7d161376ef64ca528081328f4c4f, type: 3}

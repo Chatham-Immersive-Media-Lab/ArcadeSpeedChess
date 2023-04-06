@@ -104,8 +104,9 @@ public class Pawn : Piece
         {
             if (lastMove.MovingPiece is Pawn otherPawn)
             {
-                var offset = Mathf.Abs(lastMove.Destination.Position.x - _currentTile.Position.x);
-                if (offset == 1)
+                var horizontalOffset = Mathf.Abs(lastMove.Destination.Position.x - _currentTile.Position.x);
+                var verticalOffset = Mathf.Abs(lastMove.Destination.Position.y - _currentTile.Position.y);
+                if (horizontalOffset == 1 && verticalOffset == 0)
                 {
                     //we COULD en passant!
                     var move = new EnPassant();

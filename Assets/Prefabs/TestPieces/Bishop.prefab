@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5490245119803509849
 RectTransform:
   m_ObjectHideFlags: 0
@@ -270,3 +270,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a2a41a006434a9f66eef6a5129de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _blackSprite: {fileID: 21300000, guid: 4ca004bc5fe1d5043849f9e5f236806b, type: 3}
+  _whiteSprite: {fileID: 21300000, guid: 2cb57e9139cdeab488fa58c99834e726, type: 3}

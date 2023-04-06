@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790e571982cc4cd597071c4e916e0c69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _blackSprite: {fileID: 21300000, guid: 1a3815a0d8e9c3447bab00bea78f21d8, type: 3}
+  _whiteSprite: {fileID: 21300000, guid: d86f7272adb9e9d43b7e9630049d2a6d, type: 3}
 --- !u!1 &6488014201033436690
 GameObject:
   m_ObjectHideFlags: 0

@@ -179,7 +179,7 @@ namespace Chess
 
                             Castle move = new Castle()
                             {
-                                Rook = (Rook)nearRook,
+                                Rook = (Rook)farRook,
                                 RookDestination = rookDest,
                                 MovingPiece = this,
                                 Destination = kingDest,
